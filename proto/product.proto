@@ -1,0 +1,107 @@
+syntax = "proto3";
+
+package proto_pharmacy;
+
+
+service API {
+  rpc GetProducts(RequestData) returns (ResponseData) {}
+  rpc GetCities(RequestCityAndSource) returns (ResponseCities) {}
+  rpc GetSources(RequestCityAndSource) returns (ResponseSources) {}
+}
+
+message RequestCityAndSource {
+  string api_key = 1;
+}
+
+message ResponseCities {
+  ErrorResponse errors = 1;
+  repeated City cities = 2;
+}
+
+message ResponseSources {
+  ErrorResponse errors = 1;
+  repeated Source sources = 2;
+}
+
+message ErrorResponse {
+  bool is_error = 1;
+  string msg = 2;
+}
+
+message Filter {
+  bool is_active = 1;
+  string date_updated_lte = 2;
+  string date_updated_gte = 3;
+}
+
+message RequestData {
+  int64 limit = 1;
+  int64 last_id = 2;
+  string api_key = 3;
+  Filter filters = 4;
+  string competitor_source = 5;
+}
+
+message ResponseData {
+  ErrorResponse errors = 1;
+  int64 limit = 2;
+  int64 last_id = 3;
+  Filter filters = 4;
+  repeated MainProduct goods = 5;
+}
+
+message MainProduct {
+  int64 id = 1;
+  string code_cvp = 2;
+  string external_id = 3;
+  int64 protek_code = 4;
+  string barcode = 5;
+  string source_name = 6;
+  string sku = 7;
+  string article = 8;
+  string name = 9;
+  int64 price = 10;
+  int64 price_old = 11;
+  bool is_active = 12;
+  string brand = 13;
+  string url = 14;
+  int64 sale = 15;
+  int64 count_feedbacks = 16;
+  int64 rating = 17;
+  string date_updated = 19;
+  string category = 20;
+  int64 city_id = 21;
+  repeated DetailProduct competitor_goods = 22;
+}
+
+message DetailProduct {
+  int64 id = 1;
+  string source_name = 2;
+  string sku = 3;
+  string article = 4;
+  string relation = 5;
+  string name = 6;
+  int64 price = 7;
+  int64 price_old = 8;
+  bool is_active = 9;
+  string brand = 10;
+  string url = 11;
+  int64 sale = 12;
+  int64 count_feedbacks = 13;
+  int64 rating = 14;
+  string date_updated = 16;
+  string category = 17;
+  int64 city_id = 18;
+  string address = 19;
+}
+
+message City {
+  int64 id = 1;
+  string name = 2;
+}
+
+message Source {
+  int64 id = 1;
+  string name = 2;
+}
+
