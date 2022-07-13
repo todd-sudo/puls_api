@@ -4,12 +4,14 @@ package proto_pharmacy;
 
 
 service API {
-  rpc GetProducts(RequestData) returns (ResponseData) {}
-  rpc GetCities(RequestCityAndSource) returns (ResponseCities) {}
-  rpc GetSources(RequestCityAndSource) returns (ResponseSources) {}
+  rpc GetGoodsOnCompetitorSku(RequestOnCompetitorSku) returns (ResponseOnCompetitorSku) {}
+  rpc GetAllProducts(RequestAllProducts) returns (ResponseAllProducts) {}
+  rpc GetGoodsOnOneCodePuls(RequestOnOneCodePuls) returns (ResponseOnOneCodePuls) {}
+  rpc GetCities(RequestCityAndShop) returns (ResponseCities) {}
+  rpc GetShops(RequestCityAndShop) returns (ResponseShops) {}
 }
 
-message RequestCityAndSource {
+message RequestCityAndShop {
   string api_key = 1;
 }
 
@@ -18,9 +20,9 @@ message ResponseCities {
   repeated City cities = 2;
 }
 
-message ResponseSources {
+message ResponseShops {
   ErrorResponse errors = 1;
-  repeated Source sources = 2;
+  repeated Shop shops = 2;
 }
 
 message ErrorResponse {
@@ -28,71 +30,91 @@ message ErrorResponse {
   string msg = 2;
 }
 
-message Filter {
-  bool is_active = 1;
-  string date_updated_lte = 2;
-  string date_updated_gte = 3;
-}
-
-message RequestData {
-  int64 limit = 1;
-  int64 last_id = 2;
-  string api_key = 3;
-  Filter filters = 4;
-  string competitor_source = 5;
-}
-
-message ResponseData {
-  ErrorResponse errors = 1;
+// Запрос на получение сопоставленных по коду Puls ----|
+message RequestOnOneCodePuls {
+  string api_key = 1;
   int64 limit = 2;
   int64 last_id = 3;
-  Filter filters = 4;
-  repeated MainProduct goods = 5;
+  string date_updated_lte = 4;
+  string date_updated_gte = 5;
+  string puls_code = 6;
+  int64 city_id = 7;
 }
 
-message MainProduct {
-  int64 id = 1;
-  string code_cvp = 2;
-  string external_id = 3;
-  int64 protek_code = 4;
-  string barcode = 5;
-  string source_name = 6;
-  string sku = 7;
-  string article = 8;
-  string name = 9;
-  int64 price = 10;
-  int64 price_old = 11;
-  bool is_active = 12;
-  string brand = 13;
-  string url = 14;
-  int64 sale = 15;
-  int64 count_feedbacks = 16;
-  int64 rating = 17;
-  string date_updated = 19;
-  string category = 20;
-  int64 city_id = 21;
-  repeated DetailProduct competitor_goods = 22;
+message ResponseOnOneCodePuls {
+  ErrorResponse errors = 1;
+  int64 last_id = 2;
+  int64 limit = 3;
+  string date_updated_lte = 4;
+  string date_updated_gte = 5;
+  repeated Product goods = 6;
+}
+// ----------------------------------------------------|
+
+
+// Запрос для получения всех данных (limit/last_id) ---|
+message RequestAllProducts {
+  string api_key = 1;
+  int64 limit = 2;
+  int64 last_id = 3;
+  string date_updated_lte = 4;
+  string date_updated_gte = 5;
+  int64 city_id = 6;
 }
 
-message DetailProduct {
+message ResponseAllProducts {
+  ErrorResponse errors = 1;
+  int64 last_id = 2;
+  int64 limit = 3;
+  string date_updated_lte = 4;
+  string date_updated_gte = 5;
+  repeated Puls goods = 6;
+}
+// ----------------------------------------------------|
+
+
+// Запрос с списком sku конкурента ------|
+message RequestOnCompetitorSku {
+  string api_key = 1;
+  string competitor_name = 2;
+  repeated string codes = 3;
+  string date_updated_lte = 4;
+  string date_updated_gte = 5;
+}
+
+message ResponseOnCompetitorSku {
+  ErrorResponse errors = 1;
+  repeated Product goods = 2;
+}
+// ---------------------------------------|
+
+
+// Модели данных -------------------------|
+message Puls {
   int64 id = 1;
-  string source_name = 2;
-  string sku = 3;
-  string article = 4;
-  string relation = 5;
-  string name = 6;
-  int64 price = 7;
-  int64 price_old = 8;
-  bool is_active = 9;
-  string brand = 10;
+  string puls_code = 2;
+  string name = 3;
+  string manufacturer = 4;
+  repeated Product competitor_goods = 5;
+}
+
+message Product {
+  int64 id = 1;
+  string sku = 2;
+  string article = 3;
+  string name = 4;
+  int64 price = 5;
+  int64 price_old = 6;
+  bool is_active = 7;
+  string brand = 8;
+  string manufacturer = 9;
+  string country = 10;
   string url = 11;
-  int64 sale = 12;
-  int64 count_feedbacks = 13;
-  int64 rating = 14;
-  string date_updated = 16;
-  string category = 17;
-  int64 city_id = 18;
-  string address = 19;
+  string category = 12;
+  string date_updated = 13;
+  string shop_name = 14;
+  City city = 15;
+  Shop shop = 16;
 }
 
 message City {
@@ -100,8 +122,8 @@ message City {
   string name = 2;
 }
 
-message Source {
+message Shop {
   int64 id = 1;
   string name = 2;
 }
-
+// ---------------------------------------|
