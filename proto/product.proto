@@ -80,6 +80,8 @@ message RequestOnCompetitorSku {
   repeated string codes = 3;
   string date_updated_lte = 4;
   string date_updated_gte = 5;
+  int64 last_id = 6;
+  int64 limit = 7;
 }
 
 message ResponseOnCompetitorSku {
