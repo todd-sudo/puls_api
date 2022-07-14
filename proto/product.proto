@@ -87,6 +87,10 @@ message RequestOnCompetitorSku {
 message ResponseOnCompetitorSku {
   ErrorResponse errors = 1;
   repeated Product goods = 2;
+  int64 last_id = 3;
+  int64 limit = 4;
+  string date_updated_lte = 5;
+  string date_updated_gte = 6;
 }
 // ---------------------------------------|
 
