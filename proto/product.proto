@@ -119,8 +119,8 @@ message Product {
   string category = 12;
   string date_updated = 13;
   string shop_name = 14;
-  City city = 15;
-  Shop shop = 16;
+  int64 city_id = 15;
+  int64 shop_id = 16;
 }
 
 message City {
