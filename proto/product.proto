@@ -9,6 +9,7 @@ service API {
   rpc GetGoodsOnOneCodePuls(RequestOnOneCodePuls) returns (ResponseOnOneCodePuls) {}
   rpc GetCities(RequestCityAndShop) returns (ResponseCities) {}
   rpc GetShops(RequestCityAndShop) returns (ResponseShops) {}
+  rpc GetTransit(RequestTransit) returns (ResponseTransit) {}
 }
 
 message RequestCityAndShop {
