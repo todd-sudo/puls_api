@@ -95,6 +95,34 @@ message ResponseOnCompetitorSku {
 // ---------------------------------------|
 
 
+// Запрос на получение транзитивных связей ----|
+message RequestTransit {
+  string api_key = 1;
+  string from = 2; // название площадки откуда запрашиваем товар
+  string in = 3; // название площадки через которую достаем товар по транзитной связи
+  string date_updated_lte = 4;
+  string date_updated_gte = 5;
+  string sku = 6;
+  int64 city_id = 7;
+  int64 last_id = 8;
+  int64 limit = 9;
+
+}
+
+message ResponseTransit {
+  ErrorResponse errors = 1;
+  int64 last_id = 2;
+  int64 limit = 3;
+  string date_updated_lte = 4;
+  string date_updated_gte = 5;
+  string from = 6;
+  string in = 7;
+  Product product = 9;
+  repeated Product goods_transit = 10;
+}
+// ----------------------------------------------------|
+
+
 // Модели данных -------------------------|
 message Puls {
   int64 id = 1;
@@ -121,6 +149,7 @@ message Product {
   string shop_name = 14;
   int64 city_id = 15;
   int64 shop_id = 16;
+  string puls_code = 17;
 }
 
 message City {
