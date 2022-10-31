@@ -40,6 +40,7 @@ message RequestOnOneCodePuls {
   string date_updated_gte = 5;
   string puls_code = 6;
   int64 city_id = 7;
+  string competitor_name = 8;
 }
 
 message ResponseOnOneCodePuls {
@@ -61,6 +62,7 @@ message RequestAllProducts {
   string date_updated_lte = 4;
   string date_updated_gte = 5;
   int64 city_id = 6;
+  string competitor_name = 7;
 }
 
 message ResponseAllProducts {
